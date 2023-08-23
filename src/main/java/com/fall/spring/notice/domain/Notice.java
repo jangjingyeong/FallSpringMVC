@@ -3,22 +3,23 @@ package com.fall.spring.notice.domain;
 import java.sql.Timestamp;
 
 public class Notice {
-	private int noticeNO;
+	private int noticeNo;
 	private String noticeSubject;
 	private String noticeContent;
 	private String noticeWriter;
 	private Timestamp nCreateDate;
 	private Timestamp nUpdateDate;
 	private String noticeFilename;
+	private String noticeFileRename;
 	private String noticeFilepath;
 	private long noticeFilelength;
 	
 	
-	public int getNoticeNO() {
-		return noticeNO;
+	public int getNoticeNo() {
+		return noticeNo;
 	}
-	public void setNoticeNO(int noticeNO) {
-		this.noticeNO = noticeNO;
+	public void setNoticeNo(int noticeNo) {
+		this.noticeNo = noticeNo;
 	}
 	public String getNoticeSubject() {
 		return noticeSubject;
@@ -56,6 +57,13 @@ public class Notice {
 	public void setNoticeFilename(String noticeFilename) {
 		this.noticeFilename = noticeFilename;
 	}
+	
+	public String getNoticeFileRename() {
+		return noticeFileRename;
+	}
+	public void setNoticeFileRename(String noticeFileRename) {
+		this.noticeFileRename = noticeFileRename;
+	}
 	public String getNoticeFilepath() {
 		return noticeFilepath;
 	}
@@ -70,11 +78,13 @@ public class Notice {
 	}
 	@Override
 	public String toString() {
-		return "공지사항 [번호=" + noticeNO + ", 제목=" + noticeSubject + ", 내용=" + noticeContent
+		return "공지사항 [번호=" + noticeNo + ", 제목=" + noticeSubject + ", 내용=" + noticeContent
 				+ ", 작성자=" + noticeWriter + ", 작성일=" + nCreateDate + ", 수정일=" + nUpdateDate
-				+ ", 파일이름=" + noticeFilename + ", 파일경로=" + noticeFilepath + ", 파일크기="
-				+ noticeFilelength + "]";
+				+ ", 파일이름=" + noticeFilename + ", 파일리네임=" + noticeFileRename + ", 파일경로="
+				+ noticeFilepath + ", 파일크기=" + noticeFilelength + "]";
 	}
+	
+	
 	
 	
 }

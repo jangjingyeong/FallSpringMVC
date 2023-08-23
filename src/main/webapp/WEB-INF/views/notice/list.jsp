@@ -29,8 +29,12 @@
 <%-- 				<c:forEach begin="1" end="10" var="notice" items="${ nList }" varStatus="i"> --%>
 				<c:forEach var="notice" items="${ nList }" varStatus="i">
 					<tr>
-						<td>${i.count }</td>
-						<td>${notice.noticeSubject }</td>
+						<td>${notice.noticeNo }</td>
+						<c:url var="detailUrl" value="/notice/detail.kh">
+							<c:param name="noticeNo" value="${notice.noticeNo }"></c:param>
+						</c:url>
+						<td><a href="${detailUrl}">${notice.noticeSubject }</a></td>
+
 						<td>${notice.noticeWriter }</td>
 						<td>
 							<fmt:formatDate pattern="YYYY-MM-dd" value="${notice.nCreateDate }"/>

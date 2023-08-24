@@ -182,12 +182,17 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping(value = "/member/mypage.kh", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/mypage.kh", method = {RequestMethod.GET, RequestMethod.POST})
 	public String showDetailMember(
 			Model model
-			, @RequestParam("memberId") String memberId) {
+//			, @RequestParam("memberId") String memberId
+			, HttpSession session) {
 		try {
-			Member mOne = service.showOneById(memberId);
+			String memberId = (String)session.getAttribute("memberId");
+			Member mOne = null;
+			if(memberId != "" && memberId != null) {
+				mOne = service.showOneById(memberId);
+			}
 			if(mOne != null) {
 				model.addAttribute("mOne", mOne);
 				return "member/mypage";

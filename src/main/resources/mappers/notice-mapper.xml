@@ -66,7 +66,10 @@
 	
 	<select id="selectNoticesByContent" resultMap="noticeResultMap">
 		SELECT * FROM NOTICE_TBL WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%'
-	</select><select id="selectListCount" resultType="_int">
+	</select>
+	
+	
+	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE_TBL
 	</select>
 	

@@ -100,5 +100,6 @@
 				</tr>
 			</tfoot>
 		</table>
+		<a href="/index.jsp">메인으로 이동</a>
 	</body>
 </html>

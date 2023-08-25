@@ -21,13 +21,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fall.spring.board.domain.Board;
 import com.fall.spring.board.domain.PageInfo;
+import com.fall.spring.board.domain.Reply;
 import com.fall.spring.board.service.BoardService;
+import com.fall.spring.board.service.ReplyService;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardService bService;
+	
+	@Autowired
+	private ReplyService rService;
 	
 	@RequestMapping(value = "/board/write.kh", method = RequestMethod.GET) 
 	public ModelAndView showWriteForm(ModelAndView mv) {
@@ -68,6 +73,10 @@ public class BoardController {
 		try {
 			Board boardOne = bService.selectBoardByNo(boardNo);
 			if(boardOne != null) {
+				List<Reply> replyList = rService.selectReplyList(boardNo);
+				if(replyList.size() > 0) {
+					mv.addObject("rList", replyList);
+				}
 				mv.addObject("boardOne", boardOne);
 				mv.setViewName("board/detail");
 			} else {

@@ -36,14 +36,27 @@
 					<label>첨부파일</label>
 					<!-- 첨부 파일은 String으로 받을 수 없어서 변환 작업이 필요 -->
 <%-- 					<img alt="첨부파일" src="../resources/nuploadFiles/${noticeOne.noticeFilename }"> --%>
-					<a href="../resources/buploadFiles/${boardOne.boardFileRename }" download>${boardOne.boardFilename }</a>
+					<a href="../resources/buploadFiles/${boardOne.boardFileRename }" download>${boardOne.boardFilename }</a> 
+					<c:if test="${not empty boardOne.boardFilename }">
+						<a href="#">삭제하기</a>
+					</c:if>
 				</li>
 			</ul>
 			<br><br>
 			<div>
-				<button type="button" onclick="showModifyPage();">수정하기</button>
-				<button>삭제하기</button>
+			<c:url var="boardDelUrl" value="/board/delete.kh">
+				<c:param name="boardNo" value="${boardOne.boardNo}"></c:param>
+				<c:param name="boardWriter" value="${boardOne.boardWriter}"></c:param>
+			</c:url>
+			<c:url var="modifyUrl" value="/board/modify.kh">
+				<c:param name="boardNo" value="${boardOne.boardNo }"></c:param>
+			</c:url>
+				<c:if test="${boardOne.boardWriter eq memberId }">
+					<button type="button" onclick="showModifyPage('${modifyUrl}');">수정하기</button>
+					<button type="button" onclick="deleteBoard('${boardDelUrl}');">삭제하기</button>
+				</c:if>
 				<button type="button" onclick="showBoardList();">목록으로</button>
+				<button type="button" onclick="javascripy:history.go(-1);">뒤로가기</button>
 			</div>
 			<!-- 댓글 등록 -->
 			<br><hr><br>
@@ -70,9 +83,17 @@
 					<td>${reply.rCreateDate }</td>
 					<td>
 <%-- 						<a href="javascript:void(0)" onclick="showModifyForm(this, '${reply.replyContent }');">수정하기</a> / <a href="javascript:void(0)" onclick="deleteReply();" >삭제하기</a> --%>
-						<c:if test="${ reply.replyWriter eq memberId}">
-							<a href="javascript:void(0)" onclick="showReplyModifyForm(this);">수정하기</a> / <a href="javascript:void(0)" onclick="deleteReply();" >삭제하기</a>
-						</c:if>
+<%-- 						<c:if test="${ reply.replyWriter eq memberId}"> --%>
+							<a href="javascript:void(0)" onclick="showReplyModifyForm(this);">수정하기</a> / 
+							<c:url var="delUrl" value="/reply/delete.kh">
+								<c:param name="replyNo" value="${reply.replyNo }"></c:param>
+								<!-- 내가 쓴 댓글만 지우도록 하기 위해서 replyWriter 추가! -->
+								<c:param name="replyWriter" value="${reply.replyWriter }"></c:param>
+								<!-- 성공하면 디테일로 가기 위해 필요한 boardNo 셋팅 -->
+								<c:param name="refBoardNo" value="${reply.refBoardNo }"></c:param>
+							</c:url>
+							<a href="javascript:void(0)" onclick="deleteReply('${delUrl}');" >삭제하기</a>
+<%-- 						</c:if> --%>
 					</td>
 				</tr>
 				<tr id="replyModifyForm" style="display:none;">
@@ -87,33 +108,55 @@
 				</tr>
 				</c:forEach>
 			</table>
-			<script>
-				function deleteReply() {
-					alert("test");
+			<script> 
+				// ############################### 게시글 ###############################
+				function showModifyPage(modifyUrl) {
+					location.href= modifyUrl;
+				}
+				const deleteBoard = (boardUrl) => {
+					location.href= boardUrl;
+				}
+				function showBoardList() {
+					location.href="/board/list.kh";
+				}
+				// ############################### 게시글 ###############################
+				function deleteReply(url) {
+// 					alert(url);
+					// DELETE FROM REPLY_TBL WHERE REPLY_NO = 샵{replyNo} AND R_STATUS = 'Y'
+					// UPDATE REPLY_TBL SET R_STATUS = 'N' WHERE REPLY_NO = 샵{replyNo}
+					location.href = url;
 				}
 				function replyModifyReply(obj, replyNo, refBoardNo) {
 					// DOM 프로그래밍을 이용하는 방법
+					
 					const form = document.createElement("form");
 					form.action="/reply/update.kh";
 					form.method="post";
+					
 					const input1 = document.createElement("input");
 					input1.type="hidden";
 					input1.value=replyNo;
 					input1.name="replyNo";
+					
 					const input2 = document.createElement("input");
 					input2.type="hidden";
 					input2.value=refBoardNo;
 					input2.name="refBoardNo";
+					
 					const input3 = document.createElement("input");
 					input3.type="text";
-					input3.value=document.querySelector("#replyContent").value;
+// 					input3.value=document.querySelector("#replyContent").value;
 					// 위처럼 하면 첫번째 댓글 내용으로 다 바뀌어버리기 때문에 this를 이용해야 함 
-// 					input3.value=obj.;
+					// id가 다 같아서 document.querySelector("#replyContent")로는 첫번째 댓글 내용이 선택됨 
+// 					input3.value=obj.parentElement.previousElementSibling.childNodes[0].value;
+					input3.value=obj.parentElement.previousElementSibling.children[0].value;
 					input3.name="replyContent";
+					
 					// input 태그들을 form에 넣어줌 
 					form.appendChild(input1);
 					form.appendChild(input2);
 					form.appendChild(input3);
+					
 					document.body.appendChild(form);
 					form.submit();
 				}
@@ -154,13 +197,7 @@
 				
 				
 				
-				function showModifyPage() {
-					const boardNo = "${boardOne.boardNo}";
-					location.href="/board/modify.kh?boardNo=" + boardNo;
-				}
-				function showBoardList() {
-					location.href="/board/list.kh";
-				}
+				
 			</script>
 	</body>
 </html>

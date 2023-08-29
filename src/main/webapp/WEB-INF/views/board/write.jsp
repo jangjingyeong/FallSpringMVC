@@ -17,7 +17,7 @@
 				</li>
 				<li>
 					<label>작성자</label>
-					<input type="text" name="boardWriter">
+					<span>${sessionScope.memberId }</span>
 				</li>
 				<li>
 					<label>내용</label>

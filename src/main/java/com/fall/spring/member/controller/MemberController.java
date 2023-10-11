@@ -41,7 +41,7 @@ public class MemberController {
 			, @ModelAttribute Member member
 			) {
 		try {
-			int result = service.registerMember(member);
+			int result = service.insertMember(member);
 			if(result > 0) {
 				// 성공하면 로그인 페이지
 				// home.jsp가 로그인할 수 있는 페이지가 되면 됨!!
@@ -91,7 +91,7 @@ public class MemberController {
 			, RedirectAttributes redirect
 			, @ModelAttribute Member member) {
 		try {
-			int result = service.modifyMember(member);
+			int result = service.updateMember(member);
 			if(result > 0) {
 				redirect.addAttribute("memberId", member.getMemberId());
 				return "redirect:/member/mypage.kh";
@@ -115,7 +115,7 @@ public class MemberController {
 			Model model
 			, @RequestParam("memberId") String memberId) {
 		try {
-			int result = service.removeMember(memberId);
+			int result = service.deleteMember(memberId);
 			if(result > 0) {
 				return "redirect:/member/logout.kh";
 			} else {

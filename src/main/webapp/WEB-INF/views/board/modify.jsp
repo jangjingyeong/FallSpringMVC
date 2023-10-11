@@ -34,6 +34,7 @@
 					<label>첨부파일</label>
 					<!-- 첨부 파일은 String으로 받을 수 없어서 변환 작업이 필요 -->
 					<a href="../resources/buploadFiles/${board.boardFileRename }" download>${board.boardFilename }</a>
+					
 					<input type="file" name="uploadFile">
 				</li>
 			</ul>

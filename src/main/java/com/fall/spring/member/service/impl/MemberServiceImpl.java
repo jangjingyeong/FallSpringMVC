@@ -17,19 +17,20 @@ public class MemberServiceImpl implements MemberService {
 	private MemberStore mStore;
 	
 	@Override
-	public int registerMember(Member member) {
+	public int insertMember(Member member) {
 		int result = mStore.insertMember(session, member);
+//		mStore.insertMember(session, member);
 		return result;
 	}
 
 	@Override
-	public int modifyMember(Member member) {
+	public int updateMember(Member member) {
 		int result = mStore.updateMember(session, member);
 		return result;
 	}
 
 	@Override
-	public int removeMember(String memberId) {
+	public int deleteMember(String memberId) {
 		int result = mStore.deleteMember(session, memberId);
 		return result;
 	}

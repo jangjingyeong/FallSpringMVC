@@ -8,21 +8,21 @@ public interface MemberService {
 	 * @param member
 	 * @return int
 	 */
-	public int registerMember(Member member);
+	public int insertMember(Member member);
 	
 	/**
 	 * 멤버 수정 Service
 	 * @param member
 	 * @return int
 	 */
-	public int modifyMember(Member member);
+	public int updateMember(Member member);
 	
 	/**
 	 * 멤버 삭제 Service
 	 * @param memberId
 	 * @return int
 	 */
-	public int removeMember(String memberId);
+	public int deleteMember(String memberId);
 
 	/**
 	 * 멤버 로그인 Service
